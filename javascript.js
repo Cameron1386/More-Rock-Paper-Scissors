@@ -1,5 +1,35 @@
+const rockBtn = document.querySelector("#rockBtn");
+const paperBtn = document.querySelector("#paperBtn");
+const scissorsBtn = document.querySelector("#scissorsBtn");
+let display = document.createElement("div");
+let content = document.createElement("p");
+
 let humanScore = 0;
 let computerScore = 0;
+
+document.body.appendChild(display);
+display.appendChild(content);
+
+const buttons = [rockBtn, paperBtn, scissorsBtn];
+
+
+buttons.forEach(function(button) {
+    button.addEventListener("click", function(event) {
+        const humanChoice = event.target.id.slice(0, -3);
+        playRound(humanChoice, getComputerChoice());
+        if (humanScore >= 5) {
+            content.textContent = "HUMANS WIN";
+        } else if (computerScore >= 5) {
+            content.textContent = "COMPUTERS WIN";
+        }
+        if (humanScore >= 5 || computerScore >= 5) {
+            rockBtn.style.display = "none";
+            paperBtn.style.display = "none";
+            scissorsBtn.style.display = "none";
+        }
+    });
+});
+
 
 const array = ["rock", "paper", "scissors"];
 
@@ -17,37 +47,23 @@ function playRound(humanChoice, computerChoice) {
     let cChoice = computerChoice.toLowerCase();
 
     if (hChoice == cChoice) {
-        console.log("Tie!");
+        content.innerHTML = "Tie!" + "<br>" +
+        humanScore + " | " + computerScore;
     } else if (hChoice === "rock" && cChoice === "scissors") {
         ++humanScore;
-        console.log("You WIN! " + hChoice + " beats " + cChoice);
+        content.innerHTML = "You WIN! " + hChoice + " beats " + cChoice + "<br>" +
+        humanScore + " | " + computerScore;
     } else if (hChoice === "paper" && cChoice === "rock") {
         ++humanScore;
-        console.log("You WIN! " + hChoice + " beats " + cChoice);
+        content.innerHTML = "You WIN! " + hChoice + " beats " + cChoice + "<br>" +
+        humanScore + " | " + computerScore;
     } else if (hChoice === "scissors" && cChoice === "paper") {
         ++humanScore;
-        console.log("You WIN! " + hChoice + " beats " + cChoice);
+        content.innerHTML = "You WIN! " + hChoice + " beats " + cChoice + "<br>" +
+        humanScore + " | " + computerScore;
     } else {
         ++computerScore;
-        console.log("You LOSE! " + cChoice + " beats " + hChoice);
+        content.innerHTML = "You LOSE! " + cChoice + " beats " + hChoice + "<br>" +
+        humanScore + " | " + computerScore;
     }
 }
-
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        c = getComputerChoice();
-        h = getHumanChoice();
-
-        playRound(h, c);
-    }
-
-    humanScore > computerScore ?
-        console.log("Final: You Win!") :
-        (humanScore < computerScore ? 
-            console.log("Final: Computer Wins! :(") : 
-            console.log("Final: TIE!"));
-
-    
-}
-
-playGame();
